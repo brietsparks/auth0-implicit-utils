@@ -1,2 +1,2 @@
-export { default } from './authenticate';
+export { default as makeUtils } from './authenticate';
 export { storage } from './storage';

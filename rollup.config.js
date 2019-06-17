@@ -9,7 +9,7 @@ export default [
     output: {
       name: 'auth0ImplicitUtils',
       file: 'dist/index.js',
-      format: 'iife',
+      format: 'umd',
       globals: {
         'auth0-js': 'auth0',
         'jwt-decode': 'decodeJwt'
