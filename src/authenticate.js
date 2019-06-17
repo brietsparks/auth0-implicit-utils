@@ -18,7 +18,7 @@ export default function ({
   interval = DEFAULT_INTERVAL,
 
   storage = defaultStorage
-}) {
+} = {}) {
   const makeClient = ({ state, nonce } = {}) => {
     state = state || randomString();
     nonce = nonce || randomString();
@@ -26,7 +26,7 @@ export default function ({
     return new auth0.WebAuth({
       domain,
       clientID: clientId,
-      loginCallbackUrl,
+      redirectUri: loginCallbackUrl,
       audience,
       nonce,
       state,
@@ -57,7 +57,7 @@ export default function ({
               // and return the userId and original login location
               const loggedInFrom = storage.retrieveLoginLocation();
               storage.removeLoginLocation();
-              resolve(userId, loggedInFrom);
+              resolve({ userId, redirectTo: loggedInFrom });
             })
             .catch(error => reject(error));
         }
@@ -103,7 +103,9 @@ export default function ({
             .catch(error => reject(error))
         }
 
-        // if we reach this point, that means the token is valid and not expiring soon
+        // if we reach this point, that means the
+        // token is valid and not expiring soon
+        // ...
 
         // queue a future authentication check
         setTimeout(() => authenticate(), interval);
@@ -115,12 +117,18 @@ export default function ({
     });
   }
 
-  function logout(location) {
+  function promptLogin(location) {
+    storage.storeLoginLocation(location);
+    makeClient().authorize();
+  }
+
+  function logout() {
+    storage.removeToken();
     makeClient().logout({
-      returnTo: location,
+      returnTo: logoutRedirectUrl,
       clientID: clientId
     });
   }
 
-  return { authenticate, logout }
+  return { authenticate, promptLogin, logout }
 }

@@ -22,5 +22,8 @@
   },
   "peerDependencies": {
     "auth0-js": "^9.10.4"
+  },
+  "dependencies": {
+    "jwt-decode": "^2.2.0"
   }
 }

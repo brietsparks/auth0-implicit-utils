@@ -27,6 +27,10 @@ export class TokenReader {
     return this.decoded.sub;
   };
 
+  getUser() {
+    return this.getSubject();
+  }
+
   getExpirationTimestamp() {
     if (!this.isTokenValid()) {
       throw new Error('invalid token');

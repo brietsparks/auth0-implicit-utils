@@ -3,7 +3,7 @@ export const ACCESS_TOKEN_KEY = 'access_token';
 export const NONCE_KEY = 'auth_nonce';
 export const STATE_KEY = 'auth_state';
 
-export const retrieveLoginLocation = () => localStorage.getItem(ACCESS_TOKEN_KEY);
+export const retrieveLoginLocation = () => localStorage.getItem(LOGIN_LOCATION_KEY);
 export const storeLoginLocation = loginLocation => localStorage.setItem(LOGIN_LOCATION_KEY, loginLocation);
 export const removeLoginLocation = () => localStorage.removeItem(LOGIN_LOCATION_KEY);
 
